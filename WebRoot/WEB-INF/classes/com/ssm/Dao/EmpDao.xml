@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.Dao.EmpDao">
+	<resultMap type="Emp" id="emp">
+		<result property="eid" column="eid" javaType="int" jdbcType="VARCHAR"/>
+		<result property="ename" column="ename" javaType="string"/>
+		<result property="loginname" column="loginname" javaType="string"/>
+		<result property="loginpwd" column="loginpwd" javaType="string"/>
+		<result property="sex" column="sex" javaType="string"/>
+		<result property="address" column="address" javaType="string"/>
+		<result property="birthday" column="birthday" javaType="java.util.Date"/>
+		<association property="d" column="d_id" javaType="Dept">
+			<id property="did" column="did" javaType="int"/>
+			<result property="dname" column="dname" javaType="string"/>
+		</association>
+	</resultMap>
+	
+	<insert id="addEmp" parameterType="Emp">
+		insert into emps(ename,loginname,loginpwd,sex,birthday,address,d_id) 
+				values(#{ename},#{loginname},#{loginpwd},#{sex},#{birthday},#{address},#{d.did})
+	</insert>
+	
+	<select id="getEmpsLimit" parameterType="java.util.Map" resultType="Emp" resultMap="emp">
+		select e.eid,e.ename,e.loginname,e.loginpwd,e.sex,e.birthday,e.address,d.dname from emps e inner join depts d on(e.d_id = d.did) limit #{n},#{m}
+	</select>
+	
+	<delete id="deleteEmpById" parameterType="int">
+		delete from emps where eid = #{id}
+	</delete>
+	
+	<update id="updateEmp" parameterType="Emp">
+		update emps set ename = #{ename},loginname = #{loginname},loginpwd = #{loginpwd},sex = #{sex},birthday = #{birthday},
+		address = #{address},d_id = #{d.did} where eid = #{eid}
+	</update>
+	
+	<select id="getEmpById" parameterType="int" resultType="Emp">
+		select * from emps where eid = #{id}
+	</select>
+</mapper>

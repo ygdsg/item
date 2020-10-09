@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.ssm.Dao.DeptDao">
+	<select id="getAllDept" resultType="Dept">
+		select did,dname from depts 
+	</select>
+	<select id="getDeptNameById" parameterType="int" resultType="string">
+		select dname from depts where did = #{num}
+	</select>
+	
+	<insert id="addDept" parameterType="Dept">
+		insert into depts(dname) values(#{dname})
+	</insert>
+	
+	<delete id="removeDeptById" parameterType="int">
+		delete from depts where did = #{did}
+	</delete>
+	
+	<update id="">
+		update depts set #{dname} where did = #{did}
+	</update>
+</mapper>
